@@ -8,7 +8,7 @@ from .torch_lr_finder import *
 
 class NetworkPipeline():
     def __init__(self, data_path, inp_size, seed, means, stdevs, need_albumentation, batch_size, labels_list, model_name, criterion, optimizer_name, scheduler_name=None, dropout=0, num_classes=10, train_loader=None, test_loader=None, is_custom=False, test_data_path=None):
-      self.available_models = {"Net": Net, "Quiz9_DNN_Net": Quiz9_DNN_Net, "ResNet18": ResNet18, "ResNet34": ResNet34, "ResNet50": ResNet50, "ResNet101": ResNet101, "ResNet152": ResNet152, "CustomResNet": CustomResNet, "CustomResidualNet": CustomResidualNet}
+      self.available_models = {"CustomResidualNet": CustomResidualNet}
       self.available_optimizers = {"SGD": optim.SGD, "Adam": optim.Adam}
       self.available_schedulers = {"OneCycleLR": torch.optim.lr_scheduler.OneCycleLR}
       self.seed = seed
