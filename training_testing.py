@@ -10,7 +10,7 @@ from torch.optim.lr_scheduler import StepLR
 import matplotlib.pyplot as plt
 from torchsummary import summary
 from tqdm.notebook import tqdm
-from regularization import *
+from .regularization import *
 
 def get_lr(optimizer):
     for param_group in optimizer.param_groups:
