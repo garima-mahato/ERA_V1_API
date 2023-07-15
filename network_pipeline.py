@@ -56,14 +56,20 @@ class NetworkPipeline():
         lr_finder = LRFinder(self.model, lr_range_test_optimizer, self.criterion, device=self.device)
         if range_test:
            lr_finder.range_test(self.train_loader, end_lr=end_lr, num_iter=num_epochs,step_mode=step_mode)
+           min_val_index = lr_finder.history['loss'].index(lr_finder.best_loss)
+           best_lr = lr_finder.history['lr'][min_val_index]
+           print(f"LR (min loss {lr_finder.best_loss}) to be used: {best_lr}")
+
+           lr_finder.plot()
+           lr_finder.reset()
         else:
            lr_finder.range_test_over_epochs(self.train_loader, end_lr=end_lr, num_epochs=num_epochs,step_mode=step_mode)
-        max_val_index = lr_finder.history['loss'].index(lr_finder.best_acc)
-        best_lr = lr_finder.history['lr'][max_val_index]
-        print(f"LR (max accuracy {lr_finder.best_acc}) to be used: {best_lr}")
-        
-        lr_finder.plot(show_lr=best_lr, yaxis_label="Training Accuracy") # to inspect the accuracy-learning rate graph
-        lr_finder.reset() # to reset the self.model and optimizer to their initial state
+           max_val_index = lr_finder.history['loss'].index(lr_finder.best_acc)
+           best_lr = lr_finder.history['lr'][max_val_index]
+           print(f"LR (max accuracy {lr_finder.best_acc}) to be used: {best_lr}")
+            
+           lr_finder.plot(show_lr=best_lr, yaxis_label="Training Accuracy") # to inspect the accuracy-learning rate graph
+           lr_finder.reset() # to reset the self.model and optimizer to their initial state
         
         return best_lr
       elif self.optimizer_name == optim.Adam:
@@ -72,14 +78,20 @@ class NetworkPipeline():
         lr_finder = LRFinder(self.model, lr_range_test_optimizer, self.criterion, device=self.device)
         if range_test:
            lr_finder.range_test(self.train_loader, end_lr=end_lr, num_iter=num_epochs,step_mode=step_mode)
+           min_val_index = lr_finder.history['loss'].index(lr_finder.best_loss)
+           best_lr = lr_finder.history['lr'][min_val_index]
+           print(f"LR (min loss {lr_finder.best_loss}) to be used: {best_lr}")
+           
+           lr_finder.plot()
+           lr_finder.reset()
         else:
            lr_finder.range_test_over_epochs(self.train_loader, end_lr=end_lr, num_epochs=num_epochs,step_mode=step_mode)
-        max_val_index = lr_finder.history['loss'].index(lr_finder.best_acc)
-        best_lr = lr_finder.history['lr'][max_val_index]
-        print(f"LR (max accuracy {lr_finder.best_acc}) to be used: {best_lr}")
-        
-        lr_finder.plot(show_lr=best_lr, yaxis_label="Training Accuracy") # to inspect the accuracy-learning rate graph
-        lr_finder.reset() # to reset the self.model and optimizer to their initial state
+           max_val_index = lr_finder.history['loss'].index(lr_finder.best_acc)
+           best_lr = lr_finder.history['lr'][max_val_index]
+           print(f"LR (max accuracy {lr_finder.best_acc}) to be used: {best_lr}")
+            
+           lr_finder.plot(show_lr=best_lr, yaxis_label="Training Accuracy") # to inspect the accuracy-learning rate graph
+           lr_finder.reset() # to reset the self.model and optimizer to their initial state
         
         return best_lr
       else:
