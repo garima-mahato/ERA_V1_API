@@ -48,13 +48,16 @@ class NetworkPipeline():
       self.inp_size = inp_size
       #show_sample_images(self.train_loader, self.labels_list)
 
-    def find_network_lr(self, init_lr, init_weight_decay, end_lr=1, num_epochs=100):
+    def find_network_lr(self, init_lr, init_weight_decay, end_lr=1, num_epochs=100, step_mode="exp",range_test=False):
       self.model = self.model.to(self.device)
       if self.optimizer_name == optim.SGD:
         print(f"Finding max LR for One Cycle Policy using LR Test Range over {num_epochs} epochs...")
         lr_range_test_optimizer = optim.SGD(self.model.parameters(), lr=init_lr, weight_decay=init_weight_decay)
         lr_finder = LRFinder(self.model, lr_range_test_optimizer, self.criterion, device=self.device)
-        lr_finder.range_test_over_epochs(self.train_loader, end_lr=end_lr, num_epochs=num_epochs)
+        if range_test:
+           lr_finder.range_test(self.train_loader, end_lr=end_lr, num_iter=num_epochs,step_mode=step_mode)
+        else:
+           lr_finder.range_test_over_epochs(self.train_loader, end_lr=end_lr, num_epochs=num_epochs,step_mode=step_mode)
         max_val_index = lr_finder.history['loss'].index(lr_finder.best_acc)
         best_lr = lr_finder.history['lr'][max_val_index]
         print(f"LR (max accuracy {lr_finder.best_acc}) to be used: {best_lr}")
@@ -67,7 +70,10 @@ class NetworkPipeline():
         print(f"Finding max LR for One Cycle Policy using LR Test Range over {num_epochs} epochs...")
         lr_range_test_optimizer = optim.Adam(self.model.parameters(), lr=init_lr, weight_decay=init_weight_decay)
         lr_finder = LRFinder(self.model, lr_range_test_optimizer, self.criterion, device=self.device)
-        lr_finder.range_test_over_epochs(self.train_loader, end_lr=end_lr, num_epochs=num_epochs)
+        if range_test:
+           lr_finder.range_test(self.train_loader, end_lr=end_lr, num_iter=num_epochs,step_mode=step_mode)
+        else:
+           lr_finder.range_test_over_epochs(self.train_loader, end_lr=end_lr, num_epochs=num_epochs,step_mode=step_mode)
         max_val_index = lr_finder.history['loss'].index(lr_finder.best_acc)
         best_lr = lr_finder.history['lr'][max_val_index]
         print(f"LR (max accuracy {lr_finder.best_acc}) to be used: {best_lr}")
