@@ -60,7 +60,7 @@ class NetworkPipeline():
            best_lr = lr_finder.history['lr'][min_val_index]
            print(f"LR (min loss {lr_finder.best_loss}) to be used: {best_lr}")
 
-           lr_finder.plot(show_lr=best_lr, yaxis_label="Training Loss")
+           lr_finder.plot(show_lr=best_lr)
            lr_finder.reset()
         else:
            lr_finder.range_test_over_epochs(self.train_loader, end_lr=end_lr, num_epochs=num_epochs,step_mode=step_mode)
@@ -68,7 +68,7 @@ class NetworkPipeline():
            best_lr = lr_finder.history['lr'][max_val_index]
            print(f"LR (max accuracy {lr_finder.best_acc}) to be used: {best_lr}")
             
-           lr_finder.plot(show_lr=best_lr, yaxis_label="Training Accuracy") # to inspect the accuracy-learning rate graph
+           lr_finder.plot(show_lr=best_lr) # to inspect the accuracy-learning rate graph
            lr_finder.reset() # to reset the self.model and optimizer to their initial state
         
         return best_lr
@@ -82,7 +82,7 @@ class NetworkPipeline():
            best_lr = lr_finder.history['lr'][min_val_index]
            print(f"LR (min loss {lr_finder.best_loss}) to be used: {best_lr}")
 
-           lr_finder.plot(show_lr=best_lr, yaxis_label="Training Loss")
+           lr_finder.plot(show_lr=best_lr)
            lr_finder.reset()
         else:
            lr_finder.range_test_over_epochs(self.train_loader, end_lr=end_lr, num_epochs=num_epochs,step_mode=step_mode)
@@ -90,7 +90,7 @@ class NetworkPipeline():
            best_lr = lr_finder.history['lr'][max_val_index]
            print(f"LR (max accuracy {lr_finder.best_acc}) to be used: {best_lr}")
             
-           lr_finder.plot(show_lr=best_lr, yaxis_label="Training Accuracy") # to inspect the accuracy-learning rate graph
+           lr_finder.plot(show_lr=best_lr) # to inspect the accuracy-learning rate graph
            lr_finder.reset() # to reset the self.model and optimizer to their initial state
         
         return best_lr
