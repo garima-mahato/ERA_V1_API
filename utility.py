@@ -195,8 +195,8 @@ def imshow(img):
 
 def show_sample_images(train_loader, labels_list, num_imgs=5):
 	# get some random training images
-	dataiter = iter(train_loader)
-	images, labels = dataiter.next()
+	#dataiter = iter(train_loader)
+	images, labels = next(iter(train_loader))
 	# show images
 	imshow(torchvision.utils.make_grid(images[:num_imgs]))
 	# print labels

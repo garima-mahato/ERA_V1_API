@@ -63,8 +63,21 @@ class NetworkPipeline():
         lr_finder.reset() # to reset the self.model and optimizer to their initial state
         
         return best_lr
+      elif self.optimizer_name == optim.Adam:
+        print(f"Finding max LR for One Cycle Policy using LR Test Range over {num_epochs} epochs...")
+        lr_range_test_optimizer = optim.Adam(self.model.parameters(), lr=init_lr, weight_decay=init_weight_decay)
+        lr_finder = LRFinder(self.model, lr_range_test_optimizer, self.criterion, device=self.device)
+        lr_finder.range_test_over_epochs(self.train_loader, end_lr=end_lr, num_epochs=num_epochs)
+        max_val_index = lr_finder.history['loss'].index(lr_finder.best_acc)
+        best_lr = lr_finder.history['lr'][max_val_index]
+        print(f"LR (max accuracy {lr_finder.best_acc}) to be used: {best_lr}")
+        
+        lr_finder.plot(show_lr=best_lr, yaxis_label="Training Accuracy") # to inspect the accuracy-learning rate graph
+        lr_finder.reset() # to reset the self.model and optimizer to their initial state
+        
+        return best_lr
       else:
-        raise Exception("Defined only for SGD Optimizer")
+        raise Exception("Defined only for SGD/Adam Optimizer")
 
     def build_network(self, optim_params, scheduler_params=None):
         print("Creating model...")
