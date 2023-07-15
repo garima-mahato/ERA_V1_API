@@ -60,7 +60,7 @@ class NetworkPipeline():
            best_lr = lr_finder.history['lr'][min_val_index]
            print(f"LR (min loss {lr_finder.best_loss}) to be used: {best_lr}")
 
-           lr_finder.plot()
+           lr_finder.plot(show_lr=best_lr, yaxis_label="Training Loss")
            lr_finder.reset()
         else:
            lr_finder.range_test_over_epochs(self.train_loader, end_lr=end_lr, num_epochs=num_epochs,step_mode=step_mode)
@@ -81,8 +81,8 @@ class NetworkPipeline():
            min_val_index = lr_finder.history['loss'].index(lr_finder.best_loss)
            best_lr = lr_finder.history['lr'][min_val_index]
            print(f"LR (min loss {lr_finder.best_loss}) to be used: {best_lr}")
-           
-           lr_finder.plot()
+
+           lr_finder.plot(show_lr=best_lr, yaxis_label="Training Loss")
            lr_finder.reset()
         else:
            lr_finder.range_test_over_epochs(self.train_loader, end_lr=end_lr, num_epochs=num_epochs,step_mode=step_mode)
