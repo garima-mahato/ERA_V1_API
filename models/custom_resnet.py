@@ -113,5 +113,5 @@ class CustomResidualNet(nn.Module):
         y5 = self.fc_layer(y4)
 
         y5 = y5.view(-1, 10)
-        y5 = nn.Softmax(dim=-1)(y5)
+        #y5 = nn.Softmax(dim=-1)(y5)
         return y5
