@@ -5,7 +5,7 @@ import cv2
 import torch
 from torchvision import datasets, transforms
 from albumentations import *
-from albumentations.pytorch import ToTensor
+from albumentations.pytorch.transforms import ToTensor
 
 # custom transformations from albumentations library
 class AlbumentationTransformations():
