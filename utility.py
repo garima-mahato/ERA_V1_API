@@ -19,7 +19,7 @@ import random
 
 def find_custom_dataset_mean_std(DATA_PATH, cuda):
   num_of_inp_channels = 3
-  simple_transforms = tf.Compose([
+  simple_transforms = tf.Compose([       tf.Resize(256),
                                           tf.ToTensor()
                                         ])
   exp = datasets.ImageFolder(DATA_PATH, transform=simple_transforms)
