@@ -22,7 +22,7 @@ def find_custom_dataset_mean_std(DATA_PATH, cuda):
   simple_transforms = tf.Compose([
                                           tf.ToTensor()
                                         ])
-  exp = datasets.ImageFolder(DATA_PATH+"/train_set", transform=simple_transforms)
+  exp = datasets.ImageFolder(DATA_PATH, transform=simple_transforms)
   dataloader_args = dict(shuffle=True, batch_size=256, num_workers=4, pin_memory=True) if cuda else dict(shuffle=True, batch_size=64)
   loader = torch.utils.data.DataLoader(exp, **dataloader_args)
 
