@@ -4,7 +4,8 @@ import numpy
 import glob
 import torch
 import torchvision
-from torchvision import datasets, transforms
+from torchvision import datasets
+from torchvision import transforms as tf
 import matplotlib.pyplot as plt
 import io
 import glob
@@ -18,8 +19,8 @@ import random
 
 def find_custom_dataset_mean_std(DATA_PATH, cuda):
   num_of_inp_channels = 3
-  simple_transforms = transforms.Compose([
-                                          transforms.ToTensor()
+  simple_transforms = tf.Compose([
+                                          tf.ToTensor()
                                         ])
   exp = datasets.ImageFolder(DATA_PATH+"/train_set", transform=simple_transforms)
   dataloader_args = dict(shuffle=True, batch_size=256, num_workers=4, pin_memory=True) if cuda else dict(shuffle=True, batch_size=64)
@@ -41,14 +42,14 @@ def find_custom_dataset_mean_std(DATA_PATH, cuda):
 
   # print("means: {}".format(mean))
   # print("stdevs: {}".format(std))
-  # print('transforms.Normalize(mean = {}, std = {})'.format(mean, std))
+  # print('tf.Normalize(mean = {}, std = {})'.format(mean, std))
 
   return tuple(mean.numpy().astype(numpy.float32)), tuple(std.numpy().astype(numpy.float32))
 
 def find_cifar10_normalization_values(data_path='./data'):
   num_of_inp_channels = 3
-  simple_transforms = transforms.Compose([
-                                        transforms.ToTensor()
+  simple_transforms = tf.Compose([
+                                        tf.ToTensor()
                                        ])
   exp = datasets.CIFAR10(data_path, train=True, download=True, transform=simple_transforms)
   data = exp.data
@@ -62,7 +63,7 @@ def find_cifar10_normalization_values(data_path='./data'):
 
   print("means: {}".format(means))
   print("stdevs: {}".format(stdevs))
-  print('transforms.Normalize(mean = {}, std = {})'.format(means, stdevs))
+  print('tf.Normalize(mean = {}, std = {})'.format(means, stdevs))
 
   return means, stdevs
 
