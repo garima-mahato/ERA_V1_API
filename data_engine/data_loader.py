@@ -2,7 +2,8 @@ from __future__ import print_function
 import math
 import numpy
 import torch
-from torchvision import datasets, transforms
+from torchvision import datasets
+from torchvision import transforms as tf
 from .data_augmenter import *
 
 def generate_transforms(means, stdevs, is_albumentation=False, is_augment=True):
@@ -12,15 +13,15 @@ def generate_transforms(means, stdevs, is_albumentation=False, is_augment=True):
   elif is_augment:
     train_transforms = augment_data(means, stdevs)
   else:
-    train_transforms = transforms.Compose([
-	    transforms.ToTensor(),
-	    transforms.Normalize(means, stdevs)
+    train_transforms = tf.Compose([
+	    tf.ToTensor(),
+	    tf.Normalize(means, stdevs)
 	  ])
 
   # Test Phase transformations
-  test_transforms = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize(means, stdevs)
+  test_transforms = tf.Compose([
+    tf.ToTensor(),
+    tf.Normalize(means, stdevs)
   ])
 
   return train_transforms, test_transforms
@@ -33,21 +34,21 @@ def generate_cifar10_train_test_dataset(data_path, train_transforms, test_transf
 
 def generate_custom_transforms(means, stdevs):
   # Train Phase transformations
-  augmentation = transforms.RandomApply([
-    transforms.RandomHorizontalFlip(),
-    transforms.RandomRotation(10),
-    transforms.RandomResizedCrop(64)], p=.8)
+  augmentation = tf.RandomApply([
+    tf.RandomHorizontalFlip(),
+    tf.RandomRotation(10),
+    tf.RandomResizedCrop(64)], p=.8)
   
-  train_transforms = transforms.Compose([
-    transforms.Lambda(lambda x: x.convert("RGB")),
+  train_transforms = tf.Compose([
+    tf.Lambda(lambda x: x.convert("RGB")),
     augmentation,
-    transforms.ToTensor(),
-    transforms.Normalize(means, stdevs)])
+    tf.ToTensor(),
+    tf.Normalize(means, stdevs)])
   
-  test_transforms = transforms.Compose([
-    transforms.Lambda(lambda x: x.convert("RGB")),
-    transforms.ToTensor(),
-    transforms.Normalize(means, stdevs)])
+  test_transforms = tf.Compose([
+    tf.Lambda(lambda x: x.convert("RGB")),
+    tf.ToTensor(),
+    tf.Normalize(means, stdevs)])
 
   return train_transforms, test_transforms
 
